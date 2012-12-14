@@ -1,8 +1,61 @@
 <!DOCTYPE html>
 <html>
+<head>
+	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js" type="text/javascript"></script>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<script type="text/javascript">
+		var lat = ""
+		var lon = ""
+		var c;
+		var ctx;
+		$(document).on("ready",start);
+        function start(){
+        c=document.getElementById("myCanvas");
+		ctx=c.getContext("2d");
+		var screenX = document.body.offsetWidth;
+ 		var screenY = document.body.offsetHeight;
+ 		
+ 		function showLocation(position) {
+		  lat = position.coords.latitude;
+		  lon = position.coords.longitude;
+		  var text = "Latitude : " + lat + " Longitude :" + lon;
+		  ctx.fillText(text, 20, 20 )
+		}
+
+		function errorHandler(err) {
+		  if(err.code == 1) {
+		    alert("Error: Access is denied!");
+		  }else if( err.code == 2) {
+		    alert("Error: Position is unavailable!");
+		  }
+		}
+		function getLocation(){
+
+		   if(navigator.geolocation){
+		      // timeout at 60000 milliseconds (60 seconds)
+		      var options = {timeout:60000};
+		      navigator.geolocation.getCurrentPosition(showLocation, 
+		                                               errorHandler,
+		                                               options);
+		   }else{
+		      alert("Sorry, browser does not support geolocation!");
+		   }
+		}
+
+		getLocation()
+		window.ondevicemotion = function(event) {
+			
+			var text = "x: " + event.accelerationIncludingGravity.x + "y: " + event.accelerationIncludingGravity.y
+			ctx.fillText(text, 20, 120 )
+		}
+		  
+ 	}
+	</script>
+
+</head>
 <body>
 
-<canvas id="myCanvas" width="200" height="100" style="border:1px solid #000000;">
+<canvas id="myCanvas" width="500" height="500" style="border:1px solid #000000;">
 Your browser does not support the HTML5 canvas tag.
 </canvas>
 
