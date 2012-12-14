@@ -6,6 +6,8 @@
 	<script type="text/javascript">
 		var lat = ""
 		var lon = ""
+		var x = 100;
+		var y = 100;
 		var c;
 		var ctx;
 		$(document).on("ready",start);
@@ -46,7 +48,13 @@
 		window.ondevicemotion = function(event) {
 			
 			var text = "x: " + event.accelerationIncludingGravity.x + "y: " + event.accelerationIncludingGravity.y
-			ctx.fillText(text, 20, 120 )
+			ctx.fillText(text, 20, 420 )
+			ctx.moveTo(x,y);
+			x= x + event.accelerationIncludingGravity.x;
+			y= y - event.accelerationIncludingGravity.y;
+			ctx.lineTo(x,y);
+			ctx.stroke();
+
 		}
 		  
  	}
