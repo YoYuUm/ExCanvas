@@ -8,8 +8,11 @@
 		var lon = ""
 		var x = 100;
 		var y = 100;
+		var xvar = 0;
+		var yvar = 0;
 		var c;
 		var ctx;
+		var speed = 4;
 		$(document).on("ready",start);
         function start(){
         c=document.getElementById("myCanvas");
@@ -46,16 +49,19 @@
 
 		getLocation()
 		window.ondevicemotion = function(event) {
-			
-			var text = "x: " + event.accelerationIncludingGravity.x + "y: " + event.accelerationIncludingGravity.y
-			ctx.fillText(text, 20, 420 )
+			//xvar = xvar + event.accelerationIncludingGravity.x;
+			//yvar= yvar - event.accelerationIncludingGravity.y;
+			xvar = event.accelerationIncludingGravity.x * speed;
+			yvar = event.accelerationIncludingGravity.y * speed;
+		}
+
+		setInterval(function(){
 			ctx.moveTo(x,y);
-			x= x + event.accelerationIncludingGravity.x;
-			y= y - event.accelerationIncludingGravity.y;
+			x= x + xvar;
+			y= y - yvar;
 			ctx.lineTo(x,y);
 			ctx.stroke();
-
-		}
+		},150)
 		  
  	}
 	</script>
